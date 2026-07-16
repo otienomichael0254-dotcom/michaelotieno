@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Michael Otieno Ouma</title>
+<meta name="description" content="Explore the projects built by Michael Otieno Ouma — Software Developer and IT Specialist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- Firebase for dynamic projects -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body>
+
+<div class="topline"></div>
+
+<header>
+  <nav>
+    <div class="logo">Michael Otieno Ouma</div>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" aria-label="Toggle dark/light theme">🌙</button>
+      <a href="cv.pdf" class="btn btn-fill nav-cta">Download CV</a>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <span class="eyebrow">[ Portfolio ]</span>
+    <h1 class="page-title">My Projects</h1>
+    <p class="page-desc">A curated collection of products, tools, and experiments I've built — from full-stack web apps and client sites to developer tools and beyond.</p>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="wrap">
+
+    <div class="filter-row">
+      <button class="chip active">All Projects</button>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Projects Shipped</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Active Products</div></div>
+      <div class="stat"><div class="stat-num">1k+</div><div class="stat-label">Users Reached</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">Technologies Used</div></div>
+    </div>
+
+    <div class="project-grid">
+
+      <div class="project-card featured">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">ianela-technologies.example</div>
+          </div>
+          <img class="browser-shot" src="ian.png" alt="Ianela Technologies live site preview">
+        </div>
+        <div class="project-info">
+          <div class="project-meta-row"><span class="featured-tag">★ Featured</span><span>Startup · 2024</span></div>
+          <div class="project-title">Ianela Technologies</div>
+          <p class="project-desc">The company we founded — building high-performance software products and digital solutions for modern businesses. A creative tech studio where innovation meets execution.</p>
+          <div class="tag-row"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">JavaScript</span><span class="tag">Figma</span></div>
+          <div class="project-links"><a href="ian.png">View Project</a><a href="#">Case Study</a></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">mickytechsolutions.vercel.app</div>
+          </div>
+          <img class="browser-shot" src="mickytech.png" alt="Micky Technology Solutions live site preview">
+        </div>
+        <div class="project-meta-row"><span>Web App</span><span>2024</span></div>
+        <div class="project-title">Micky Technology Solutions</div>
+        <p class="project-desc">A comprehensive tech management system helping to solve people's tech problems at their workplace. Innovate today, transform tomorrow.</p>
+        <div class="tag-row"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Firebase</span></div>
+        <div class="project-links"><a href="https://mickytechsolutions.vercel.app" target="_blank" rel="noopener">View System</a><a href="#">Details</a></div>
+      </div>
+
+      <div class="project-card">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">morgankahari.vercel.app</div>
+          </div>
+          <img class="browser-shot" src="morgankahari.png" alt="Morgan Kahari portfolio live site preview">
+        </div>
+        <div class="project-meta-row"><span>Client Portfolio</span><span>2024</span></div>
+        <div class="project-title">Morgan Kahari Portfolio</div>
+        <p class="project-desc">A personal portfolio site built for client Morgan Kahari — clean, fast, and tailored to showcase their work and personal brand.</p>
+        <div class="tag-row"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span></div>
+        <div class="project-links"><a href="https://morgankahari.vercel.app" target="_blank" rel="noopener">View Site</a></div>
+      </div>
+
+
+    
+
+      <div class="project-card">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">android-tooling.example</div>
+          </div>
+          <img class="browser-shot" src="android.png" alt="Android Studio tooling preview">
+        </div>
+        <div class="project-meta-row"><span>Tool</span><span>2024</span></div>
+        <div class="project-title">Android Studio Tooling</div>
+        <p class="project-desc">A developer productivity setup that automates repetitive workflows, project scaffolding, and deployment pipelines.</p>
+        <div class="tag-row"><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">Shell</span></div>
+        <div class="project-links"><a href="https://developer.android.com/studio" target="_blank" rel="noopener">Learn More</a><a href="#">GitHub</a></div>
+      </div>
+
+      <div class="project-card">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">graphics-design.example</div>
+          </div>
+          <img class="browser-shot" src="poster.png" alt="Graphics design poster preview">
+        </div>
+        <div class="project-meta-row"><span>Startup</span><span>2023</span></div>
+        <div class="project-title">Graphics Design</div>
+        <p class="project-desc">Creative design work combining typography, imagery, color, and layout to communicate ideas visually and effectively.</p>
+        <div class="tag-row"><span class="tag">Next.js</span><span class="tag">Adobe Suite</span></div>
+        <div class="project-links"><a href="poster.png">View Poster</a><a href="#">GitHub</a></div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Michael Otieno Ouma</div>
+        <p class="footer-blurb">Software Developer & CEO, Micky Tech Solutions. Building impactful solutions from Nairobi, Kenya.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="GitHub">G</a>
+          <a href="#" aria-label="LinkedIn">L</a>
+          <a href="#" aria-label="Twitter">T</a>
+          <a href="mailto:otienomichael0254@gmail.com" aria-label="Email">E</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">Navigation</div>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Work</div>
+        <ul class="footer-list">
+          <li><a href="contact.html">Hire Me</a></li>
+          <li><a href="cv.pdf">Download CV</a></li>
+          <li><a href="https://mickytechsolutions.vercel.app" target="_blank" rel="noopener">Micky Tech Solutions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Michael Otieno Ouma. All rights reserved.</span>
+      <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="sitemap.html">Sitemap</a></span>
+    </div>
+  </div>
+  <div class="ghost-text">Micky Tech Solutions</div>
+</footer>
+
+<script src="script.js"></script>
+<script src="projects-loader.js"></script>
+</body>
+</html>
