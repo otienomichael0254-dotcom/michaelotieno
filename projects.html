@@ -9,6 +9,47 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="kingi.png">
+<link rel="apple-touch-icon" href="kingi.png">
+<style>
+  .referee-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .referee-card {
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255,106,0,0.10), rgba(255,106,0,0.03));
+  }
+
+  .referee-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+
+  .referee-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .referee-phone:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+  }
+</style>
 <!-- Firebase for dynamic projects -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
@@ -107,6 +148,21 @@
         <div class="project-links"><a href="https://morgankahari.vercel.app" target="_blank" rel="noopener">View Site</a></div>
       </div>
 
+      <div class="project-card">
+        <div class="browser-frame">
+          <div class="browser-topbar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">casoadvent.netlify.app</div>
+          </div>
+          <img class="browser-shot" src="SDA.png" alt="Casa Advent project preview">
+        </div>
+        <div class="project-meta-row"><span>Web Site</span><span>2026</span></div>
+        <div class="project-title">Casa Advent</div>
+        <p class="project-desc">A modern web presence built to highlight services and information with a polished, engaging layout for a growing organization.</p>
+        <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Netlify</span></div>
+        <div class="project-links"><a href="https://casoadvent.netlify.app/" target="_blank" rel="noopener">View Site</a></div>
+      </div>
+
 
     
 
@@ -142,6 +198,8 @@
 
 
     </div>
+
+
   </div>
 </section>
 
@@ -178,7 +236,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Michael Otieno Ouma. All rights reserved.</span>
-      <span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="sitemap.html">Sitemap</a></span>
+      <span><a href="privacy.html">Privacy</a> · c:\Users\MNTRH-ADMN2\Pictures\Screenshots\SDA.png · <a href="sitemap.html">Sitemap</a></span>
     </div>
   </div>
   <div class="ghost-text">Micky Tech Solutions</div>

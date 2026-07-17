@@ -3,6 +3,8 @@
 =================================================== */
 
 let currentUser = null;
+let visitorListener = null;
+let messagesListener = null;
 const auth = window.auth || firebase.auth();
 const db = window.db || firebase.firestore();
 const storage = window.storage || firebase.storage();
@@ -23,6 +25,8 @@ function updateUI() {
     loginSection.style.display = 'none';
     dashboardSection.style.display = 'block';
     userEmail.textContent = currentUser.email;
+    loadSiteStats();
+    loadMessages();
     loadProjects();
   } else {
     loginSection.style.display = 'block';
@@ -61,6 +65,132 @@ document.getElementById('logout-btn')?.addEventListener('click', async () => {
     console.error('Logout error:', err);
   }
 });
+
+// ---- LIVE SITE STATS ----
+function attachSiteStatsListener() {
+  if (!db || visitorListener) return;
+
+  const statsRef = db.collection('siteStats').doc('visits');
+  visitorListener = statsRef.onSnapshot((doc) => {
+    const countEl = document.getElementById('visitor-count');
+    if (!countEl) return;
+    const count = doc.exists ? (doc.data().count || 0) : 0;
+    countEl.textContent = count.toLocaleString();
+  }, (err) => {
+    console.error('Site stats listener error:', err);
+  });
+}
+
+async function loadSiteStats() {
+  const countEl = document.getElementById('visitor-count');
+  if (!countEl) return;
+
+  try {
+    const doc = await db.collection('siteStats').doc('visits').get();
+    const count = doc.exists ? (doc.data().count || 0) : 0;
+    countEl.textContent = count.toLocaleString();
+    attachSiteStatsListener();
+  } catch (err) {
+    countEl.textContent = '0';
+    console.error('Load site stats error:', err);
+  }
+}
+
+// ---- CONTACT MESSAGES ----
+function renderMessages(snapshot) {
+  const listEl = document.getElementById('messages-list');
+  const countEl = document.getElementById('message-count');
+  if (!listEl || !countEl) return;
+
+  countEl.textContent = snapshot.size.toLocaleString();
+
+  if (snapshot.empty) {
+    listEl.innerHTML = '<div class="empty-state">No contact messages yet.</div>';
+    return;
+  }
+
+  listEl.innerHTML = '';
+  snapshot.forEach((doc) => {
+    const message = doc.data();
+    const sentAt = message.submittedAt?.toDate ? message.submittedAt.toDate() : new Date();
+    const isRead = Boolean(message.isRead);
+
+    const card = document.createElement('div');
+    card.className = `message-card ${isRead ? 'is-read' : 'unread'}`;
+    card.innerHTML = `
+      <div class="message-card-header">
+        <div>
+          <div class="message-badge">${isRead ? 'Read' : 'New'}</div>
+          <strong>${escapeHtml(message.from_name || 'Anonymous')}</strong>
+        </div>
+        <span>${sentAt.toLocaleString()}</span>
+      </div>
+      <p><strong>Email:</strong> ${escapeHtml(message.from_email || 'N/A')}</p>
+      <p><strong>Company:</strong> ${escapeHtml(message.company || 'Not specified')}</p>
+      <p><strong>Project Type:</strong> ${escapeHtml(message.project_type || 'N/A')}</p>
+      <p><strong>Budget:</strong> ${escapeHtml(message.budget || 'N/A')}</p>
+      <p><strong>Message:</strong> ${escapeHtml(message.message || 'No message content')}</p>
+      <div class="message-actions">
+        <button class="btn-action" onclick="toggleMessageRead('${doc.id}', ${isRead})">${isRead ? 'Mark as unread' : 'Mark as read'}</button>
+        <button class="btn-action danger" onclick="deleteMessage('${doc.id}')">Delete</button>
+      </div>
+    `;
+    listEl.appendChild(card);
+  });
+}
+
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function toggleMessageRead(messageId, isRead) {
+  try {
+    await db.collection('contactMessages').doc(messageId).update({
+      isRead: !isRead,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } catch (err) {
+    console.error('Toggle message status error:', err);
+    alert(`Unable to update message status: ${err.message}`);
+  }
+}
+
+async function deleteMessage(messageId) {
+  if (!confirm('Delete this message?')) return;
+
+  try {
+    await db.collection('contactMessages').doc(messageId).delete();
+  } catch (err) {
+    console.error('Delete message error:', err);
+    alert(`Unable to delete message: ${err.message}`);
+  }
+}
+
+async function loadMessages() {
+  const listEl = document.getElementById('messages-list');
+  const countEl = document.getElementById('message-count');
+  if (!listEl || !countEl) return;
+
+  try {
+    const snapshot = await db.collection('contactMessages').orderBy('submittedAt', 'desc').limit(20).get();
+    renderMessages(snapshot);
+
+    if (!messagesListener) {
+      messagesListener = db.collection('contactMessages').orderBy('submittedAt', 'desc').limit(20).onSnapshot((snapshot) => {
+        renderMessages(snapshot);
+      });
+    }
+  } catch (err) {
+    listEl.innerHTML = '<div class="empty-state">Unable to load messages right now.</div>';
+    countEl.textContent = '0';
+    console.error('Load messages error:', err);
+  }
+}
 
 // ---- LOAD PROJECTS FROM FIRESTORE ----
 async function loadProjects() {

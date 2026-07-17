@@ -69,6 +69,36 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* ---- SITE VISIT TRACKING ---- */
+(function(){
+  const trackSiteVisit = () => {
+    if (!window.location || window.location.pathname.includes('/admin.html')) return;
+    const storageKey = 'portfolio-site-visit-tracked';
+    if (sessionStorage.getItem(storageKey)) return;
+
+    sessionStorage.setItem(storageKey, '1');
+
+    const firestore = window.db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
+    if (!firestore) return;
+
+    const visitRef = firestore.collection('siteStats').doc('visits');
+    visitRef.get()
+      .then((doc) => {
+        const currentCount = doc.exists ? (doc.data().count || 0) : 0;
+        return visitRef.set({
+          count: currentCount + 1,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastVisitedAt: new Date().toISOString()
+        }, { merge: true });
+      })
+      .catch((err) => console.warn('Unable to record site visit:', err));
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    trackSiteVisit();
+  });
+})();
+
 /* ---- EMAILJS CONTACT FORM (contact.html) ----
    Connected using credentials from emailjs.config.js */
 (function(){
@@ -116,6 +146,17 @@ window.addEventListener('DOMContentLoaded', () => {
         message: document.getElementById('message').value
       };
 
+      const saveContactMessage = () => {
+        const firestore = window.db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
+        if (!firestore) return Promise.resolve();
+
+        return firestore.collection('contactMessages').add({
+          ...templateParams,
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          source: 'contact-form'
+        });
+      };
+
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
         .then(() => {
           if (EMAILJS_AUTO_REPLY_TEMPLATE_ID) {
@@ -125,6 +166,11 @@ window.addEventListener('DOMContentLoaded', () => {
               });
           }
           return null;
+        })
+        .then(() => {
+          return saveContactMessage().catch((saveErr) => {
+            console.warn('Unable to save contact message:', saveErr);
+          });
         })
         .then(() => {
           setStatus('✓ Message sent successfully! I\'ll get back to you within 24 hours.', 'ok');
